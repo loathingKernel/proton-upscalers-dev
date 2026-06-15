@@ -185,7 +185,7 @@ def package() -> dict:
         md5_hash = {}
         for root, dirs, files in src_path.walk():
             for file in files:
-                if file.endswith(".ini"):
+                if not file.endswith((".dll", ".asi")):
                     continue
                 dll = Path(root).joinpath(file)
                 with dll.open("rb") as dll_fd:
