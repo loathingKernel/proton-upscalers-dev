@@ -185,12 +185,12 @@ def package() -> dict:
         md5_hash = {}
         for root, dirs, files in src_path.walk():
             for file in files:
-                # temporarily remove asi from checksums
-                if file.endswith(".ini") or file.endswith(".asi"):
+                if file.endswith(".ini"):
                     continue
                 dll = Path(root).joinpath(file)
                 with dll.open("rb") as dll_fd:
-                    md5_hash[dll.relative_to(src_path).as_posix()] = hashlib.md5(dll_fd.read()).hexdigest().upper()
+                    dll_name = dll.relative_to(src_path).as_posix()
+                    md5_hash[dll_name] = hashlib.md5(dll_fd.read()).hexdigest().upper()
 
         tar_path = config.paths.assets.joinpath(f"optiscaler_{rel['tag_name']}.tar.xz")
         tar_path.unlink(missing_ok=True)
